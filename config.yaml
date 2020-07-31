@@ -1,0 +1,7 @@
+configs:
+  empire:
+    name: Empire Market
+    url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/home/searchproducts/database
+    cookies:
+      dcap: A81BC56DCC07C22B0E729B59E3A18914397FC809D539264EB0A7703785CF0A375EBAC6B8BB4138A3525926734CBF1357
+      shop: kgg8o17rpkiom0qpr2r82amheg5o624e
