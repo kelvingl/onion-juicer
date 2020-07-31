@@ -9,3 +9,6 @@ class OnionJuicer:
     def __init__(self,
                  config_path='%s/config.yaml' % os.getcwd()):
         self._config = yaml.safe_load(config_path)
+
+    def extract(self):
+        pass
