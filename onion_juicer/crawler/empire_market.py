@@ -7,7 +7,7 @@ import datetime
 
 class EmpireMarket(Spider):
 
-    name = 'empire'
+    name = 'empire_market'
     allowed_domains = ['onion']
 
     rules = (
@@ -33,10 +33,6 @@ class EmpireMarket(Spider):
     def __init__(self, *args, **kwargs):
         super(EmpireMarket, self).__init__(*args, **kwargs)
         self.start_urls = []
-
-    @classmethod
-    def initialize_with_configs(cls, configs):
-        super(EmpireMarket, cls).initialize_with_configs(configs)
 
     def start_requests(self):
         for url in self.start_urls:

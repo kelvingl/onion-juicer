@@ -8,7 +8,9 @@ class Spider(CrawlSpider):
 
     @classmethod
     def initialize_with_configs(cls, configs):
-        cls.start_urls = configs.get('url', None)
+        cls.configs = configs
+
+        cls.start_urls = cls.configs.get('url', None)
 
     @classmethod
     def _set_user_agent(cls, request, callback=(lambda x: x)):

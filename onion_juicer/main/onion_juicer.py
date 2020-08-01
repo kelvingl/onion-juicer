@@ -2,6 +2,9 @@ import os
 import yaml
 from onion_juicer.model import ConnectionManager, Site as SiteModel
 from onion_juicer.crawler import EmpireMarket
+from scrapy.crawler import CrawlerProcess
+import scrapy
+import pprint
 import sys
 
 
@@ -10,6 +13,7 @@ class OnionJuicer:
     _config = {}
     _spider_classes = [EmpireMarket]
     _cm = None
+    _crawler_process = None
 
     def __init__(self,
                  config_path='%s/config.yaml' % os.getcwd()):
@@ -21,21 +25,35 @@ class OnionJuicer:
 
         all_sites = SiteModel.select()
 
-        if len(all_sites) <= 1:
+        if len(all_sites) <= 0:
             return
 
-        spiders = []
+        cls._crawler_process = CrawlerProcess(cls._get_crawler_process_settings())
+
         for _site in all_sites:
             _spider = cls._create_spider(_site)
             if _spider is None:
                 continue
-            spiders.append(_spider)
+            cls._crawler_process.crawl(_spider)
 
-        sys.exit(1)
+        cls._crawler_process.start()
+
+    @classmethod
+    def _get_crawler_process_settings(cls):
+        return {
+            'LOG_LEVEL': 'DEBUG',
+            'ROBOTSTXT_OBEY': False,
+            'CONCURRENT_REQUESTS': 1,
+
+            'BOT_NAME': 'OnionJuicer',
+            'SPIDER_MODULES': list(set([z.__module__ for z in cls._spider_classes])),
+
+        }
 
     @classmethod
     def _create_spider(cls, site):
         site_configs = cls._config.get('market_configs', {}).get(site.slug, {})
+        pprint.pprint(cls._config)
 
         spider_class = None
         for c in cls._spider_classes:
@@ -48,7 +66,7 @@ class OnionJuicer:
         if spider_class is None:
             return
 
-        spider = spider_class()
+        spider = cls._crawler_process.spider_loader.load(spider_class.name)
 
         spider.initialize_with_configs(site_configs)
 

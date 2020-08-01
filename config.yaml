@@ -1,7 +1,7 @@
 database:
   name: yolo
 market_configs:
-  empire:
+  empire_market:
     name: Empire Market
     url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/home/searchproducts/database
     cookies:
