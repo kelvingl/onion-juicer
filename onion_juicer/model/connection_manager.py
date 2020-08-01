@@ -24,6 +24,10 @@ class ConnectionManager:
         self.__instance_db()
         self.__drop_schema()
         self.__create_schema()
+        self._fake_data()
+
+    def _fake_data(self):
+        Site.insert(slug='empire', name='Empire Market').execute()
 
     def __instance_db(self):
         self._db_instance = MySQLDatabase(self._database,
