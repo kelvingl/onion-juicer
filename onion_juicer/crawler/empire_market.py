@@ -49,7 +49,7 @@ class EmpireMarket(Spider):
     def parse_product(self, response):
         yield self._create_result({
             'title': response.css('div.listDes h2::text').get(),
-            'price': float(response.css('form p.padp span::text').re_first('USD (.*)')),
+            'price': float(response.css('form p.padp span::text').re_first('USD (.*)').replace(',', '')),
             'description': response.css('div.tabcontent p::text').get(),
             'tags': response.css('div.tabcontent div.tagsDiv span.tags a::text').getall(),
             'url': response.url
