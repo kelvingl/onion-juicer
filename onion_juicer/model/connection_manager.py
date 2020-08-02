@@ -37,8 +37,8 @@ class ConnectionManager:
 
     @staticmethod
     def _fake_data():
-        Site.insert(slug='empire_market', name='Empire Market').execute()
-        Site.insert(slug='icarus_market', name='Ikarus Market').execute()
+        Site.get_or_create(slug='empire_market', name='Empire Market')
+        Site.get_or_create(slug='icarus_market', name='Ikarus Market')
 
     @staticmethod
     def __drop_schema():
