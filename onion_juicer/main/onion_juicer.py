@@ -38,8 +38,8 @@ class OnionJuicer:
         return {
             'LOG_LEVEL': 'DEBUG',
             'ROBOTSTXT_OBEY': False,
-            'CONCURRENT_REQUESTS': 1,
-
+            'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
+            'REDIRECT_ENABLED': False,
             'BOT_NAME': 'OnionJuicer',
             'SPIDER_MODULES': list(set([z.__module__ for z in self._spider_classes])),
 
@@ -47,6 +47,8 @@ class OnionJuicer:
 
     def _create_spider(self, site):
         site_configs = self._config.get('market_configs', {}).get(site.slug, {})
+
+        site_configs['site'] = site
 
         spider_class = None
         for c in self._spider_classes:
@@ -73,5 +75,6 @@ class OnionJuicer:
         password = db_config.get('password', 'onion')
         host = db_config.get('host', '127.0.0.1')
         port = db_config.get('port', 3306)
+        drop_tables = db_config.get('drop_tables', False)
 
-        return ConnectionManager(database=database, username=username, password=password, host=host, port=port)
+        return ConnectionManager(database=database, username=username, password=password, host=host, port=port, drop_tables=drop_tables)

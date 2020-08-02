@@ -1,12 +1,14 @@
-from peewee import CharField, AutoField, TextField, BigIntegerField
+from peewee import CharField, AutoField, TextField, DateTimeField, ForeignKeyField, FloatField
 from .base_model import BaseModel
+from .site import Site
 
 
 class Result(BaseModel):
     id = AutoField(primary_key=True)
     title = CharField()
-    price = CharField()
+    price = FloatField()
     description = TextField()
     tags = TextField()
-    url = CharField(unique=True)
-    timestamp = BigIntegerField()
+    url = CharField()
+    date = DateTimeField()
+    site = ForeignKeyField(Site)

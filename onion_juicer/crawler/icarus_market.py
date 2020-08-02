@@ -49,10 +49,9 @@ class IcarusMarket(Spider):
     def parse_product(self, response):
         yield self._create_result({
             'title': response.xpath('/html/body/div/div/main/div[2]/div[2]/div[2]/div/div[1]/i[1]/text()').get(),
-            'price': response.css('/html/body/div/div/main/div[2]/div[2]/div[2]/b[1]/following-sibling::text()[1]').get().split(' ')[1],
+            'price': float(response.css('/html/body/div/div/main/div[2]/div[2]/div[2]/b[1]/following-sibling::text()[1]').re_first('(?:^ ) (.*)')),
             'description': response.css('textarea.form-control::text').get(),
             'tags': response.css('div.tabcontent div.tagsDiv span.tags a::text').getall(),
             'url': response.url,
             'body': response.body,
-            'timestamp': datetime.datetime.now().timestamp()
         })

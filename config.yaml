@@ -1,13 +1,15 @@
 # username: wenay24905
 # password: Senha123
+database:
+  drop_tables: false
 market_configs:
   empire_market:
     enabled: true
     name: Empire Market
     url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/home/searchproducts/database
     cookies:
-      dcap: A81BC56DCC07C22B0E729B59E3A1891446D39766FA2080B88D0E5D6F383C9B31BCD18F675A7C9694CD5283C55008BE20
-      shop: jppm99op14v42mjgmo5u30p3vsd4qkud
+      dcap: A81BC56DCC07C22B0E729B59E3A18914C4A759420559A87E8C6FFEE3F418382F170D4F06778D4F634204F1132EC9495C
+      shop: 2mgj4ngnupjvjapiia7l0v0m0u7m4rha
   icarus_market:
     enabled: false
     name: Icarus Market

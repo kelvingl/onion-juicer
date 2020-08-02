@@ -1,19 +1,22 @@
 from scrapy.spiders import CrawlSpider
 from urllib.parse import urlparse
-from onion_juicer.model import Result
+from onion_juicer.model import Result, Site
+import datetime
 
 
 class Spider(CrawlSpider):
 
     configs = {}
-    site_id = None
+    _site = None
 
     def initialize_with_configs(self, configs):
         self.configs = configs
 
         self.start_urls = [self.configs.get('url', None)]
-        self.site_id = self.configs.get('site_id', None)
 
+        self._site = self.configs.get('site', None)
+        if self._site is None:
+            raise ValueError('Site must be provided in configuration')
 
     def _set_user_agent(self, request):
         user_agent = self.configs.get('user_agent', 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0')
@@ -34,7 +37,17 @@ class Spider(CrawlSpider):
     def _create_result(self, data):
         if 'url' in data:
             data['url'] = self._strip_url(data['url'])
+
+        if 'login' in data['url']:
+            return None
+
+        data['site'] = self._site
+        data['date'] = datetime.datetime.now()
         Result.create(**data)
 
     def _is_unique_result(self, url):
-        return Result.get_or_none(Result.url == self._strip_url(url)) is None
+        return Result \
+            .select() \
+            .join(Site) \
+            .where(Result.url == self._strip_url(url), Site.id == self._site.id) \
+            .count() == 0
