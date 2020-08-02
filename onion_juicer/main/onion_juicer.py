@@ -3,7 +3,6 @@ import yaml
 from onion_juicer.model import ConnectionManager, Site as SiteModel
 from onion_juicer.crawler import EmpireMarket
 from scrapy.crawler import CrawlerProcess
-import pprint
 
 
 class OnionJuicer:
@@ -32,6 +31,7 @@ class OnionJuicer:
                 continue
             self._crawler_process.crawl(_spider)
 
+        self._crawler_process.join()
         self._crawler_process.start()
 
     def _get_crawler_process_settings(self):
@@ -47,7 +47,6 @@ class OnionJuicer:
 
     def _create_spider(self, site):
         site_configs = self._config.get('market_configs', {}).get(site.slug, {})
-        pprint.pprint(self._config)
 
         spider_class = None
         for c in self._spider_classes:
@@ -62,7 +61,7 @@ class OnionJuicer:
 
         spider = self._crawler_process.spider_loader.load(spider_class.name)
 
-        spider.initialize_with_configs(site_configs)
+        spider.initialize_with_configs(spider, site_configs)
 
         return spider
 

@@ -9,6 +9,7 @@ class EmpireMarket(Spider):
 
     name = 'empire_market'
     allowed_domains = ['onion']
+    start_urls = []
 
     rules = (
         Rule(
@@ -29,10 +30,6 @@ class EmpireMarket(Spider):
             callback='parse_product'
         ),
     )
-
-    def __init__(self, *args, **kwargs):
-        super(EmpireMarket, self).__init__(*args, **kwargs)
-        self.start_urls = []
 
     def start_requests(self):
         for url in self.start_urls:

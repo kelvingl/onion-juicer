@@ -9,7 +9,7 @@ class Spider(CrawlSpider):
     def initialize_with_configs(self, configs):
         self.configs = configs
 
-        self.start_urls = self.configs.get('url', None)
+        self.start_urls = [self.configs.get('url', None)]
 
     def _set_user_agent(self, request, callback=(lambda x: x)):
         user_agent = self.configs.get('user_agent', 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0')
