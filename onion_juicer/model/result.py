@@ -9,5 +9,4 @@ class Result(BaseModel):
     description = TextField()
     tags = TextField()
     url = CharField(unique=True)
-    body = CharField()
     timestamp = BigIntegerField()

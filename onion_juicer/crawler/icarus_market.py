@@ -5,16 +5,16 @@ from .spider import Spider
 import datetime
 
 
-class EmpireMarket(Spider):
+class IcarusMarket(Spider):
 
-    name = 'empire_market'
+    name = 'icarus_market'
     allowed_domains = ['onion']
     start_urls = []
 
     rules = (
         Rule(
             LinkExtractor(
-                allow=[r'/searchproducts/'],
+                allow=[r'/search/'],
                 restrict_css=['ul.pagination li']
             ),
             process_request='request_page',
@@ -22,8 +22,8 @@ class EmpireMarket(Spider):
         ),
         Rule(
             LinkExtractor(
-                allow=[r'/product/'],
-                restrict_css=['.col-1search']
+                allow=[r'/listing/'],
+                restrict_css=['.table']
             ),
             process_request='request_product',
             follow=True,
@@ -48,10 +48,11 @@ class EmpireMarket(Spider):
 
     def parse_product(self, response):
         yield self._create_result({
-            'title': response.css('div.listDes h2::text').get(),
-            'price': response.css('form p.padp span::text').get(),
-            'description': response.css('div.tabcontent p::text').get(),
+            'title': response.xpath('/html/body/div/div/main/div[2]/div[2]/div[2]/div/div[1]/i[1]/text()').get(),
+            'price': response.css('/html/body/div/div/main/div[2]/div[2]/div[2]/b[1]/following-sibling::text()[1]').get().split(' ')[1],
+            'description': response.css('textarea.form-control::text').get(),
             'tags': response.css('div.tabcontent div.tagsDiv span.tags a::text').getall(),
             'url': response.url,
+            'body': response.body,
             'timestamp': datetime.datetime.now().timestamp()
         })

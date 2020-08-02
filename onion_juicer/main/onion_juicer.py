@@ -1,14 +1,14 @@
 import os
 import yaml
 from onion_juicer.model import ConnectionManager, Site as SiteModel
-from onion_juicer.crawler import EmpireMarket
+from onion_juicer.crawler import EmpireMarket, IcarusMarket
 from scrapy.crawler import CrawlerProcess
 
 
 class OnionJuicer:
 
     _config = {}
-    _spider_classes = [EmpireMarket]
+    _spider_classes = [EmpireMarket, IcarusMarket]
     _cm = None
     _crawler_process = None
 

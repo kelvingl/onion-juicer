@@ -1,9 +1,16 @@
+# username: wenay24905
+# password: Senha123
 market_configs:
   empire_market:
+    enabled: true
     name: Empire Market
     url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/home/searchproducts/database
-    # username: wenay24905
-    # password: Senha123
     cookies:
-      dcap: A81BC56DCC07C22B0E729B59E3A189147D631150CBC2D6F9260C0BA2625222405D98E2DBB618C6C0732E19DD82A65B31
-      shop: khsnb639d5cgroam71cp6qt4d0qbj0g4
+      dcap: A81BC56DCC07C22B0E729B59E3A1891446D39766FA2080B88D0E5D6F383C9B31BCD18F675A7C9694CD5283C55008BE20
+      shop: jppm99op14v42mjgmo5u30p3vsd4qkud
+  icarus_market:
+    enabled: false
+    name: Icarus Market
+    url: http://icarus5kuzorj3hz.onion/search/data/database/all/0/all/all/no/all/all/all/9999/all/all/all/all
+    cookies:
+      Icarus: n7565fu336b4b8q11kben3bdt4

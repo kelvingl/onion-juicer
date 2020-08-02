@@ -28,6 +28,7 @@ class ConnectionManager:
 
     def _fake_data(self):
         Site.insert(slug='empire_market', name='Empire Market').execute()
+        Site.insert(slug='icarus_market', name='Ikarus Market').execute()
 
     def __instance_db(self):
         self._db_instance = MySQLDatabase(self._database,
