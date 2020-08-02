@@ -1,5 +1,3 @@
-database:
-  name: yolo
 market_configs:
   empire_market:
     name: Empire Market
