@@ -42,7 +42,6 @@ class OnionJuicer:
             'REDIRECT_ENABLED': False,
             'BOT_NAME': 'OnionJuicer',
             'SPIDER_MODULES': list(set([z.__module__ for z in self._spider_classes])),
-
         }
 
     def _create_spider(self, site):
