@@ -2,14 +2,13 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 from scrapy import Request
 from .spider import Spider
-import datetime
 
 
 class EmpireMarket(Spider):
 
     name = 'empire_market'
-    allowed_domains = ['onion']
-    start_urls = []
+
+    ignore_urls = ['/home', '/login']
 
     rules = (
         Rule(

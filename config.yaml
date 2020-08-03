@@ -8,11 +8,11 @@ market_configs:
     name: Empire Market
     url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/home/searchproducts/database
     cookies:
-      dcap: A81BC56DCC07C22B0E729B59E3A1891479D6F1B166270696E72443574432EA0992CA2F85D4A0126E3C633F2EC27B869C
-      shop: ieg46nfkir8un7kbfbm7q58o8ft8fv43
+      dcap: A81BC56DCC07C22B0E729B59E3A189148222AC885FE549FE7277EEE8F3206BAEE5FFF363F202CD14EE4B07C6BC4A7975
+      shop: cfp9sgghkuoj4orh83q4f2p8pr514njv
   icarus_market:
     enabled: false
     name: Icarus Market
     url: http://icarus5kuzorj3hz.onion/search/data/database/all/0/all/all/no/all/all/all/9999/all/all/all/all
     cookies:
-      Icarus: n7565fu336b4b8q11kben3bdt4
+      Icarus: 49j7s2g26m2v9id9igcdgg3q96

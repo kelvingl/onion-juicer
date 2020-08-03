@@ -8,6 +8,8 @@ class Spider(CrawlSpider):
 
     configs = {}
     _site = None
+    ignore_urls = []
+    allowed_domains = ['onion']
 
     def initialize_with_configs(self, configs):
         self.configs = configs
@@ -38,7 +40,7 @@ class Spider(CrawlSpider):
         if 'url' in data:
             data['url'] = self._strip_url(data['url'])
 
-        if 'login' in data['url']:
+        if data['url'] in self._ignore_urls:
             return None
 
         data['site'] = self._site

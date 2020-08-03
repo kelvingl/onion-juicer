@@ -38,6 +38,7 @@ class OnionJuicer:
         return {
             'LOG_LEVEL': 'DEBUG',
             'ROBOTSTXT_OBEY': False,
+            'CONCURRENT_REQUESTS': 1,
             'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
             'REDIRECT_ENABLED': False,
             'BOT_NAME': 'OnionJuicer',
