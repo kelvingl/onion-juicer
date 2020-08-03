@@ -40,7 +40,7 @@ class Spider(CrawlSpider):
         if 'url' in data:
             data['url'] = self._strip_url(data['url'])
 
-        if data['url'] in self._ignore_urls:
+        if data['url'] in self.ignore_urls:
             return None
 
         data['site'] = self._site
