@@ -1,7 +1,7 @@
 import os
 import yaml
 from onion_juicer.model import ConnectionManager, Site as SiteModel
-from onion_juicer.crawler import EmpireMarket, IcarusMarket
+from onion_juicer.spider import EmpireMarket, IcarusMarket
 from scrapy.crawler import CrawlerProcess
 
 
