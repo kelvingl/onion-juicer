@@ -4,7 +4,7 @@ from onion_juicer.model import Result, Site
 import datetime
 
 
-class Spider(CrawlSpider):
+class BaseCrawler(CrawlSpider):
 
     configs = {}
     _site = None

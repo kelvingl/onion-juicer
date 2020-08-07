@@ -1,19 +1,19 @@
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 from scrapy import Request
-from .spider import Spider
+from .base_crawler import BaseCrawler
 
 
-class EmpireMarket(Spider):
+class IcarusMarket(BaseCrawler):
 
-    name = 'empire_market'
+    name = 'icarus_market'
 
-    ignore_urls = ['/home', '/login']
+    ignore_urls = []
 
     rules = (
         Rule(
             LinkExtractor(
-                allow=[r'/searchproducts/'],
+                allow=[r'/search/'],
                 restrict_css=['ul.pagination li']
             ),
             process_request='request_page',
@@ -21,8 +21,8 @@ class EmpireMarket(Spider):
         ),
         Rule(
             LinkExtractor(
-                allow=[r'/product/'],
-                restrict_css=['.col-1search']
+                allow=[r'/listing/'],
+                restrict_css=['.table']
             ),
             process_request='request_product',
             follow=True,
@@ -47,9 +47,9 @@ class EmpireMarket(Spider):
 
     def parse_product(self, response):
         yield self._create_result({
-            'title': response.css('div.listDes h2::text').get(),
-            'price': float(response.css('form p.padp span::text').re_first('USD (.*)').replace(',', '')),
-            'description': response.css('div.tabcontent p::text').get(),
-            'tags': response.css('div.tabcontent div.tagsDiv span.tags a::text').getall(),
-            'url': response.url
+            'title': response.xpath('/html/body/div/div/main/div[2]/div[2]/div[2]/div/div[1]/i[1]/text()').get(),
+            'price': float(response.xpath('/html/body/div/div/main/div[2]/div[2]/div[2]/b[1]/following-sibling::text()[1]').re_first('(?:[^ ]+) (.*) ').replace(',', '')),
+            'description': response.css('textarea.form-control::text').get(),
+            'url': response.url,
+            'body': response.body
         })

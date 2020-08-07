@@ -11,4 +11,5 @@ class Result(BaseModel):
     tags = TextField()
     url = CharField()
     date = DateTimeField()
+    body = TextField()
     site = ForeignKeyField(Site)

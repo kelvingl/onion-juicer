@@ -12,7 +12,13 @@ class ConnectionManager:
     _port = None
     _db_instance = None
 
-    def __init__(self, database='onion', username='onion', password='onion', host='127.0.0.1', port=3306, drop_tables=False):
+    def __init__(self,
+                 database='onion',
+                 username='onion',
+                 password='onion',
+                 host='127.0.0.1',
+                 port=3306,
+                 drop_tables=False):
         self._database = database
         self._username = username
         self._password = password
