@@ -35,7 +35,7 @@ class IcarusMarket(BaseCrawler):
             yield self.request_page(Request(url=url, dont_filter=True))
 
     def _request(self, request):
-        return self._set_user_agent(self._populate_cookies(request))
+        return self._setup_proxy(request)
 
     def request_page(self, request):
         return self._request(request)
@@ -53,3 +53,7 @@ class IcarusMarket(BaseCrawler):
             'url': response.url,
             'body': response.body
         })
+
+    def _prepare_start_url(self, url):
+        url = super()._prepare_start_url(url)
+        return 'http:// ' + url + '/search/data/database/all/0/all/all/no/all/all/all/9999/all/all/all/all'

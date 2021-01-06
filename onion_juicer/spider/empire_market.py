@@ -35,7 +35,7 @@ class EmpireMarket(BaseCrawler):
             yield self.request_page(Request(url=url, dont_filter=True))
 
     def _request(self, request):
-        return self._set_user_agent(self._populate_cookies(request))
+        return self._setup_proxy(request)
 
     def request_page(self, request):
         return self._request(request)
@@ -54,3 +54,7 @@ class EmpireMarket(BaseCrawler):
             'url': response.url,
             'body': response.body
         })
+
+    def _prepare_start_url(self, url):
+        url = super()._prepare_start_url(url)
+        return 'http://' + url + '/home/searchproducts/database'

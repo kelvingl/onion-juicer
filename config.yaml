@@ -2,17 +2,19 @@
 # password: Senha123
 database:
   drop_tables: false
+  name: database.sqlite
+proxy: 'http://127.0.0.1:8118'
+cookiejar: cookies.txt
 market_configs:
+  white_house_market:
+    enabled: true
+    name: White House Market
+    url: flkzk2qjqe2yo5etsb7klxjihgrj7bi54k3iscccvkk7xbkif6x5etad.onion
   empire_market:
     enabled: false
     name: Empire Market
-    url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/home/searchproducts/database
-    cookies:
-      dcap: A81BC56DCC07C22B0E729B59E3A189148222AC885FE549FE7277EEE8F3206BAEE5FFF363F202CD14EE4B07C6BC4A7975
-      shop: cfp9sgghkuoj4orh83q4f2p8pr514njv
+    url: hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion
   icarus_market:
-    enabled: true
+    enabled: false
     name: Icarus Market
-    url: http://icarus5kuzorj3hz.onion/search/data/database/all/0/all/all/no/all/all/all/9999/all/all/all/all
-    cookies:
-      Icarus: 49j7s2g26m2v9id9igcdgg3q96
+    url: darknet3ysxpbjtvbtyqorzuq3bp4pk3vt4fuhqxz6h2bzj2kyjbisqd.onion

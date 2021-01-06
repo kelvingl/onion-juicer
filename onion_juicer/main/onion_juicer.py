@@ -1,14 +1,17 @@
 import os
 import yaml
+import tempfile
 from onion_juicer.model import ConnectionManager, Site as SiteModel
-from onion_juicer.spider import EmpireMarket, IcarusMarket
+from onion_juicer.spider import WhiteHouseMarket
 from scrapy.crawler import CrawlerProcess
+from scrapy.http.cookies import CookieJar
+from http.cookiejar import MozillaCookieJar
 
 
 class OnionJuicer:
 
     _config = {}
-    _spider_classes = [EmpireMarket, IcarusMarket]
+    _spider_classes = [WhiteHouseMarket]
     _cm = None
     _crawler_process = None
 
@@ -42,11 +45,22 @@ class OnionJuicer:
             'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
             'REDIRECT_ENABLED': False,
             'BOT_NAME': 'OnionJuicer',
+            'COOKIES_ENABLED': True,
+            'COOKIES_DEBUG': True,
+            'COOKIES_DEFAULT': self._create_cookiedict(),
+            'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0',
             'SPIDER_MODULES': list(set([z.__module__ for z in self._spider_classes])),
+            #'MIDDLEWARES': {'scrapy.spidermiddlewares.httperror.HttpErrorMiddleware': None},
+            'DOWNLOADER_MIDDLEWARES': {
+                'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': None,
+                'onion_juicer.middleware.cookie.Cookie': 700,
+            }
         }
 
     def _create_spider(self, site):
         site_configs = self._config.get('market_configs', {}).get(site.slug, {})
+
+        site_configs['proxy'] = self._config.get('proxy', '')
 
         site_configs['site'] = site
 
@@ -65,7 +79,45 @@ class OnionJuicer:
 
         spider.initialize_with_configs(spider, site_configs)
 
+        spider.cookies = self._create_cookiedict()
+
         return spider
+
+    def _create_cookiedict(self):
+        cookiejar = MozillaCookieJar()
+        filename = self._config.get('cookiejar', None)
+        if filename is None:
+            return cookiejar
+
+        # Solução de contorno
+        tmpcookiefile = tempfile.NamedTemporaryFile(delete=False)
+        tmpcookiefile.writelines([b"# HTTP Cookie File"])
+
+        with open(filename) as f:
+            for line in f:
+                if line.startswith("#HttpOnly_"):
+                    line = line[len("#HttpOnly_"):]
+                tmpcookiefile.write(line.encode())
+        tmpcookiefile.flush()
+        tmpcookiefile.close()
+        cookiejar = MozillaCookieJar()
+
+        cookiejar.load(filename=tmpcookiefile.name, ignore_discard=True, ignore_expires=True)
+        os.remove(tmpcookiefile.name)
+
+        r = {}
+        z = []
+        for domain in cookiejar._cookies:
+            if domain not in r:
+                r[domain] = {}
+            for path in cookiejar._cookies[domain]:
+                if path not in r[domain]:
+                    r[domain][path] = {}
+                for cookiename in cookiejar._cookies[domain][path]:
+                    r[domain][path][cookiename] = cookiejar._cookies[domain][path][cookiename]
+                    z.append(cookiejar._cookies[domain][path][cookiename])
+
+        return z
 
     def _create_connection_manager(self):
         db_config = self._config.get('database', {})
