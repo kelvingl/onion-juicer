@@ -54,6 +54,8 @@ class IcarusMarket(BaseCrawler):
             'body': response.body
         })
 
-    def _prepare_start_url(self, url):
-        url = super()._prepare_start_url(url)
-        return 'http:// ' + url + '/search/data/database/all/0/all/all/no/all/all/all/9999/all/all/all/all'
+    @staticmethod
+    def _prepare_start_url(url):
+        return 'http:// ' \
+               + BaseCrawler._prepare_start_url(url) \
+               + '/search/data/database/all/0/all/all/no/all/all/all/9999/all/all/all/all'

@@ -54,6 +54,8 @@ class WhiteHouseMarket(BaseCrawler):
             'url': response.url
         })
 
-    def _prepare_start_url(self, url):
-        z = super()._prepare_start_url(self, url)
-        return 'http://' + z + '/welcome?searchterm=database&shipfrom=any&shipto=any&order_by_s=Newest+First&search=2'
+    @staticmethod
+    def _prepare_start_url(url):
+        return 'http://' \
+               + BaseCrawler._prepare_start_url(url) \
+               + '/welcome?searchterm=database&shipfrom=any&shipto=any&order_by_s=Newest+First&search=2'

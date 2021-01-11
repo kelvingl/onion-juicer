@@ -15,7 +15,7 @@ class BaseCrawler(CrawlSpider):
     def initialize_with_configs(self, configs):
         self.configs = configs
 
-        self.start_urls = [self._prepare_start_url(self, self.configs.get('url', None))]
+        self.start_urls = [self._prepare_start_url(self.configs.get('url', None))]
 
         self._site = self.configs.get('site', None)
         if self._site is None:
@@ -45,7 +45,8 @@ class BaseCrawler(CrawlSpider):
                 })
         return request
 
-    def _prepare_start_url(self, url):
+    @staticmethod
+    def _prepare_start_url(url):
         parse = urlparse(url)
         return parse.netloc or parse.path
 

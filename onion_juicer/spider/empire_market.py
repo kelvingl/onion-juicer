@@ -55,6 +55,9 @@ class EmpireMarket(BaseCrawler):
             'body': response.body
         })
 
-    def _prepare_start_url(self, url):
-        url = super()._prepare_start_url(url)
-        return 'http://' + url + '/home/searchproducts/database'
+    @staticmethod
+    def _prepare_start_url(url):
+        url = BaseCrawler._prepare_start_url(url)
+        return 'http://' \
+               + BaseCrawler._prepare_start_url(url) \
+               + '/home/searchproducts/database'
