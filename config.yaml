@@ -2,14 +2,20 @@
 # password: Senha123
 database:
   drop_tables: false
-  name: database.sqlite
+  name: database.db
 proxy: 'http://127.0.0.1:8118'
-cookiejar: cookies.txt
+cookiejar: 'C:\Users\Kelvin\Downloads\cookies.undefined.txt'
+throttle:
+  enabled: true
+  debug: true
+  download_delay: 120
+  concurrent_requests: 1
+  concurrent_requests_per_domain: 1
 market_configs:
   white_house_market:
     enabled: true
     name: White House Market
-    url: flkzk2qjqe2yo5etsb7klxjihgrj7bi54k3iscccvkk7xbkif6x5etad.onion
+    url: http://voh5342e6nnxieprcsafwk5rfphgfbrbq2ihftfzrjsbndmb6u5jx4id.onion/
   empire_market:
     enabled: false
     name: Empire Market

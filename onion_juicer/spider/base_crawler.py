@@ -1,7 +1,6 @@
 from scrapy.spiders import CrawlSpider
 from urllib.parse import urlparse
 from onion_juicer.model import Result, Site
-from onion_juicer.middleware import Cookie
 import datetime
 
 
@@ -33,7 +32,7 @@ class BaseCrawler(CrawlSpider):
         return request
 
     def _setup_cookies(self, request):
-        request.meta['cookiejar'] = Cookie.KEY_DEFAULT
+        request.meta['cookiejar'] = 0
 
         if len(request.cookies) == 0:
             request.cookies = []

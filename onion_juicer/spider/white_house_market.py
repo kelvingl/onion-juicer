@@ -40,18 +40,18 @@ class WhiteHouseMarket(BaseCrawler):
     def request_page(self, request, response=None):
         return self._request(request)
 
-    def request_product(self, request):
+    def request_product(self, request, response=None):
         if not self._is_unique_result(request.url):
             return None
         return self._request(request)
 
     def parse_product(self, response):
         yield self._create_result({
-            'title': response.xpath('/html/body/div/div/main/div[2]/div[2]/div[2]/div/div[1]/i[1]/text()').get(),
-            'price': float(response.xpath('/html/body/div/div/main/div[2]/div[2]/div[2]/b[1]/following-sibling::text()[1]').re_first('(?:[^ ]+) (.*) ').replace(',', '')),
-            'description': response.css('textarea.form-control::text').get(),
-            'url': response.url,
-            'body': response.body
+            'title': response.xpath('/html/body/div[4]/div/div/div[3]/div[1]/strong/text()').get(),
+            'price': float(response.xpath('/html/body/div[4]/div/div/div[3]/div[2]/div/div/div[3]/p[2]/text()').re_first('[^:]* (?:\\w{3}) ([^ ]*?) ').replace(',', '')),
+            'description': response.xpath('/html/body/div[4]/div/div/div[4]/div[2]/textarea/text()').get(),
+            'views': float(response.xpath('/html/body/div[4]/div/div/div[3]/div[2]/div/div/div[3]/p[6]/text()').re_first('Views: (.*)')),
+            'url': response.url
         })
 
     def _prepare_start_url(self, url):

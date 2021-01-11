@@ -4,7 +4,6 @@ import tempfile
 from onion_juicer.model import ConnectionManager, Site as SiteModel
 from onion_juicer.spider import WhiteHouseMarket
 from scrapy.crawler import CrawlerProcess
-from scrapy.http.cookies import CookieJar
 from http.cookiejar import MozillaCookieJar
 
 
@@ -38,23 +37,20 @@ class OnionJuicer:
         self._crawler_process.start()
 
     def _get_crawler_process_settings(self):
+        throttle_config = self._config.get('throttle', {})
         return {
             'LOG_LEVEL': 'DEBUG',
             'ROBOTSTXT_OBEY': False,
-            'CONCURRENT_REQUESTS': 1,
-            'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
+            'AUTOTHROTTLE_ENABLED': throttle_config.get('enabled', False),
+            'AUTOTHROTTLE_DEBUG': throttle_config.get('debug', False),
+            'DOWNLOAD_DELAY': throttle_config.get('download_delay', 0),
+            'CONCURRENT_REQUESTS': throttle_config.get('concurrent_requests', 8),
+            'CONCURRENT_REQUESTS_PER_DOMAIN': throttle_config.get('concurrent_requests_per_domain', 8),
             'REDIRECT_ENABLED': False,
             'BOT_NAME': 'OnionJuicer',
             'COOKIES_ENABLED': True,
-            'COOKIES_DEBUG': True,
-            'COOKIES_DEFAULT': self._create_cookiedict(),
             'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0',
             'SPIDER_MODULES': list(set([z.__module__ for z in self._spider_classes])),
-            #'MIDDLEWARES': {'scrapy.spidermiddlewares.httperror.HttpErrorMiddleware': None},
-            'DOWNLOADER_MIDDLEWARES': {
-                'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': None,
-                'onion_juicer.middleware.cookie.Cookie': 700,
-            }
         }
 
     def _create_spider(self, site):
