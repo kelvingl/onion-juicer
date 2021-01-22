@@ -8,7 +8,7 @@ cookiejar: 'C:\Users\Kelvin\Downloads\cookies.undefined.txt'
 throttle:
   enabled: true
   debug: true
-  download_delay: 2
+  download_delay: 0
   concurrent_requests: 1
   concurrent_requests_per_domain: 1
 market_configs:
