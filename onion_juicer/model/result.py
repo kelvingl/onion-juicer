@@ -8,6 +8,7 @@ class Result(BaseModel):
     title = CharField()
     price = FloatField()
     views = FloatField(null=True)
+    seller = FloatField(null=True)
     description = TextField()
     tags = TextField(null=True)
     url = CharField()

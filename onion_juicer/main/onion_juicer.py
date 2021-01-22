@@ -2,7 +2,7 @@ import os
 import yaml
 import tempfile
 from onion_juicer.model import ConnectionManager, Site as SiteModel
-from onion_juicer.spider import WhiteHouseMarket
+from onion_juicer.spider import BigBlueMarket
 from scrapy.crawler import CrawlerProcess
 from http.cookiejar import MozillaCookieJar
 
@@ -10,7 +10,7 @@ from http.cookiejar import MozillaCookieJar
 class OnionJuicer:
 
     _config = {}
-    _spider_classes = [WhiteHouseMarket]
+    _spider_classes = [BigBlueMarket]
     _cm = None
     _crawler_process = None
 
@@ -43,13 +43,14 @@ class OnionJuicer:
             'ROBOTSTXT_OBEY': False,
             'AUTOTHROTTLE_ENABLED': throttle_config.get('enabled', False),
             'AUTOTHROTTLE_DEBUG': throttle_config.get('debug', False),
+            'AUTOTHROTTLE_MAX_DELAY': 86400,
             'DOWNLOAD_DELAY': throttle_config.get('download_delay', 0),
             'CONCURRENT_REQUESTS': throttle_config.get('concurrent_requests', 8),
             'CONCURRENT_REQUESTS_PER_DOMAIN': throttle_config.get('concurrent_requests_per_domain', 8),
-            'REDIRECT_ENABLED': False,
+            'REDIRECT_ENABLED': True,
             'BOT_NAME': 'OnionJuicer',
             'COOKIES_ENABLED': True,
-            'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0',
+            'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0',
             'SPIDER_MODULES': list(set([z.__module__ for z in self._spider_classes])),
         }
 

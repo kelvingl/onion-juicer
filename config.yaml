@@ -8,14 +8,18 @@ cookiejar: 'C:\Users\Kelvin\Downloads\cookies.undefined.txt'
 throttle:
   enabled: true
   debug: true
-  download_delay: 120
+  download_delay: 2
   concurrent_requests: 1
   concurrent_requests_per_domain: 1
 market_configs:
-  white_house_market:
+  big_blue_market:
     enabled: true
+    name: Big Blue Market
+    url: http://zcqbitqnuukivywgsbl75advykjckmvzqo4dtlavvpb76ogsyjcnquyd.onion/
+  white_house_market:
+    enabled: false
     name: White House Market
-    url: http://voh5342e6nnxieprcsafwk5rfphgfbrbq2ihftfzrjsbndmb6u5jx4id.onion/
+    url: http://flkzk2qjqe2yo5etsb7klxjihgrj7bi54k3iscccvkk7xbkif6x5etad.onion/
   empire_market:
     enabled: false
     name: Empire Market
