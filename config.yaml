@@ -9,22 +9,26 @@ throttle:
   enabled: true
   debug: true
   download_delay: 0
-  concurrent_requests: 1
-  concurrent_requests_per_domain: 1
+  concurrent_requests: 8
+  concurrent_requests_per_domain: 8
 market_configs:
   big_blue_market:
-    enabled: true
-    name: Big Blue Market
-    url: http://zcqbitqnuukivywgsbl75advykjckmvzqo4dtlavvpb76ogsyjcnquyd.onion/
-  white_house_market:
     enabled: false
+    name: Big Blue Market
+    url: http://42l5kpbryg3o7nvyayypczksycwrgwamqjeamyvsbtswni2mbnvghlqd.onion/
+  dark0de_market:
+    enabled: false
+    name: Dark0de Market
+    url: http://darkoddrkj3gqz7ke7nyjfkh7o72hlvr44uz5zl2xrapna4tribuorqd.onion/
+  white_house_market:
+    enabled: true
     name: White House Market
-    url: http://flkzk2qjqe2yo5etsb7klxjihgrj7bi54k3iscccvkk7xbkif6x5etad.onion/
+    url: http://76p5k6gw25l5jpy7ombo2m7gt4zppowbz47sizvlzkigvnyhhc26znyd.onion/
   empire_market:
     enabled: false
     name: Empire Market
-    url: hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion
+    url: http://hdzxqmipsdhj72frpkrplk6lofpwstmkr65tb53zm54yxnamg2suymid.onion/
   icarus_market:
     enabled: false
     name: Icarus Market
-    url: darknet3ysxpbjtvbtyqorzuq3bp4pk3vt4fuhqxz6h2bzj2kyjbisqd.onion
+    url: http://darknet3ysxpbjtvbtyqorzuq3bp4pk3vt4fuhqxz6h2bzj2kyjbisqd.onion/

@@ -47,15 +47,17 @@ class WhiteHouseMarket(BaseCrawler):
 
     def parse_product(self, response):
         yield self._create_result({
-            'title': response.xpath('/html/body/div[4]/div/div/div[3]/div[1]/strong/text()').get(),
-            'price': float(response.xpath('/html/body/div[4]/div/div/div[3]/div[2]/div/div/div[3]/p[2]/text()').re_first('[^:]* (?:\\w{3}) ([^ ]*?) ').replace(',', '')),
-            'description': response.xpath('/html/body/div[4]/div/div/div[4]/div[2]/textarea/text()').get(),
-            'views': float(response.xpath('/html/body/div[4]/div/div/div[3]/div[2]/div/div/div[3]/p[6]/text()').re_first('Views: (.*)')),
-            'url': response.url
+            'title': response.xpath('/html/body/div[3]/div/div/div[3]/div[1]/strong/text()').get(),
+            'price': float(response.xpath('/html/body/div[3]/div/div/div[3]/div[2]/div/div/div[3]/p[2]/text()').re_first('[^:]*?: (?:\\w{3}) ([^ ]*?) ').replace(',', '')),
+            'description': response.xpath('/html/body/div[3]/div/div/div[4]/div[2]/textarea/text()').get(),
+            'views': float(response.xpath('/html/body/div[3]/div/div/div[3]/div[2]/div/div/div[3]/p[6]/text()').re_first('Views: (.*)')),
+            'seller': response.xpath('/html/body/div[3]/div/div/div[3]/div[2]/div/div/div[3]/p[8]/strong[2]/a/text()').get(),
+            'url': response.url,
+            'body': response.body
         })
 
     @staticmethod
     def _prepare_start_url(url):
         return 'http://' \
                + BaseCrawler._prepare_start_url(url) \
-               + '/welcome?searchterm=database&shipfrom=any&shipto=any&order_by_s=Newest+First&search=2'
+               + '/welcome?searchterm=database&shipfrom=any&shipto=any&order_by_s=Newest+First&search=2&page=1'

@@ -70,7 +70,7 @@ class BigBlueMarket(BaseCrawler):
 
     def parse_product(self, response):
         yield self._create_result({
-            'title': response.xpath('string(//div[@class="tittlos"]/text)').get().strip(),
+            'title': response.xpath('string(//div[@class="tittlos"])').get().strip(),
             'price': float(response.css('.padp > span:nth-child(2)::text').re_first('(?:\\w{3}) (.*)').replace(',', '')),
             'description': response.xpath('string(//div[@id="textdesc"])').get().strip(),
             'views': None,

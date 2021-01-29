@@ -2,7 +2,8 @@ import os
 import yaml
 import tempfile
 from onion_juicer.model import ConnectionManager, Site as SiteModel
-from onion_juicer.spider import BigBlueMarket
+from onion_juicer.spider import Dark0deMarket
+from onion_juicer.spider import WhiteHouseMarket
 from scrapy.crawler import CrawlerProcess
 from http.cookiejar import MozillaCookieJar
 
@@ -10,7 +11,7 @@ from http.cookiejar import MozillaCookieJar
 class OnionJuicer:
 
     _config = {}
-    _spider_classes = [BigBlueMarket]
+    _spider_classes = [WhiteHouseMarket]
     _cm = None
     _crawler_process = None
 
@@ -47,7 +48,7 @@ class OnionJuicer:
             'DOWNLOAD_DELAY': throttle_config.get('download_delay', 0),
             'CONCURRENT_REQUESTS': throttle_config.get('concurrent_requests', 8),
             'CONCURRENT_REQUESTS_PER_DOMAIN': throttle_config.get('concurrent_requests_per_domain', 8),
-            'REDIRECT_ENABLED': True,
+            'REDIRECT_ENABLED': False,
             'BOT_NAME': 'OnionJuicer',
             'COOKIES_ENABLED': True,
             'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0',
