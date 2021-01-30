@@ -2,8 +2,7 @@ import os
 import yaml
 import tempfile
 from onion_juicer.model import ConnectionManager, Site as SiteModel
-from onion_juicer.spider import Dark0deMarket
-from onion_juicer.spider import WhiteHouseMarket
+from onion_juicer.spider import VersusMarket
 from scrapy.crawler import CrawlerProcess
 from http.cookiejar import MozillaCookieJar
 
@@ -11,7 +10,7 @@ from http.cookiejar import MozillaCookieJar
 class OnionJuicer:
 
     _config = {}
-    _spider_classes = [WhiteHouseMarket]
+    _spider_classes = [VersusMarket]
     _cm = None
     _crawler_process = None
 

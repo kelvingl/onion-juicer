@@ -53,6 +53,7 @@ class ConnectionManager:
         Site.get_or_create(slug='big_blue_market', name='Big Blue Market')
         Site.get_or_create(slug='white_house_market', name='White House Market')
         Site.get_or_create(slug='dark0de_market', name='Dark0de Market')
+        Site.get_or_create(slug='versus_market', name='Versus Market')
 
     @staticmethod
     def __drop_schema():
