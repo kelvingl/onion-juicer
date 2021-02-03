@@ -1,28 +1,32 @@
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule
 from scrapy import Request
+from time import sleep
 from .base_crawler import BaseCrawler
 
 
 class Dark0deMarket(BaseCrawler):
 
-    name = 'empire_market'
+    name = 'dark0de_market'
 
-    ignore_urls = ['/home', '/login']
+    ignore_urls = []
+
+    product_details = {}
 
     rules = (
         Rule(
             LinkExtractor(
-                allow=[r'/searchproducts/'],
-                restrict_css=['ul.pagination li']
+                allow=[r'search'],
+                restrict_xpaths=['(//div[@class="news_navigation"])/ul/li[3]/a']
             ),
             process_request='request_page',
-            follow=True
+            follow=True,
+            callback='parse_page'
         ),
         Rule(
             LinkExtractor(
                 allow=[r'/product/'],
-                restrict_css=['.col-1search']
+                restrict_css=['.top-products']
             ),
             process_request='request_product',
             follow=True,
@@ -35,22 +39,37 @@ class Dark0deMarket(BaseCrawler):
             yield self.request_page(Request(url=url, dont_filter=True))
 
     def _request(self, request):
-        return self._setup_proxy(request)
+        return self._setup_proxy(self._setup_cookies(request))
 
-    def request_page(self, request):
+    def request_page(self, request, response=None):
         return self._request(request)
 
-    def request_product(self, request):
+    def request_product(self, request, response=None):
         if not self._is_unique_result(request.url):
             return None
         return self._request(request)
 
+    def parse_page(self, response):
+        for item in response.css('.top-products .miniview-container'):
+            key = item.css('.product-name a:first-of-type::attr(href)').get()
+            views = int(item.css('li.eye::text').get())
+            sales = int(item.css('li.tag::text').get())
+            self.product_details[key] = {'views': views, 'sales': sales}
+
     def parse_product(self, response):
+        url = self._strip_url(response.url)
+        while url not in self.product_details:
+            sleep(1)
+        product_details = self.product_details[url] if url in self.product_details else {}
+        views = float(product_details.get('views', 0))
+        sales = float(product_details.get('sales', 0))
         yield self._create_result({
-            'title': response.css('div.listDes h2::text').get(),
-            'price': float(response.css('form p.padp span::text').re_first('USD (.*)').replace(',', '')),
-            'description': response.css('div.tabcontent p::text').get(),
-            'tags': response.css('div.tabcontent div.tagsDiv span.tags a::text').getall(),
+            'title': response.css('h3.product-name::text').get(),
+            'description': response.css('div.product-detail xmp:first-of-type::text').get(),
+            'seller': response.xpath('//div[@class="product-detail"]/ul/li[1]/b/a/text()').get().lower(),
+            'price': float(response.xpath('(//i[contains(@class, "fa-usd")])[1]/following-sibling::text()').get().replace(',', '')),
+            'views': views,
+            'sales': sales,
             'url': response.url,
             'body': response.body
         })
@@ -60,4 +79,4 @@ class Dark0deMarket(BaseCrawler):
         url = BaseCrawler._prepare_start_url(url)
         return 'http://' \
                + BaseCrawler._prepare_start_url(url) \
-               + '/home/searchproducts/database'
+               + '/search/Database/all/1?stype=All&sorigin=All&svendor=All&sdeaddrop=All&sortby=Price+asc&searchterm=&minprice=0&maxprice=99999'

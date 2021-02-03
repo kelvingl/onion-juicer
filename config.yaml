@@ -9,15 +9,15 @@ throttle:
   enabled: true
   debug: true
   download_delay: 0
-  concurrent_requests: 8
-  concurrent_requests_per_domain: 8
+  concurrent_requests: 1
+  concurrent_requests_per_domain: 1
 market_configs:
   big_blue_market:
     enabled: false
     name: Big Blue Market
     url: http://42l5kpbryg3o7nvyayypczksycwrgwamqjeamyvsbtswni2mbnvghlqd.onion/
   dark0de_market:
-    enabled: false
+    enabled: true
     name: Dark0de Market
     url: http://darkoddrkj3gqz7ke7nyjfkh7o72hlvr44uz5zl2xrapna4tribuorqd.onion/
   white_house_market:
@@ -33,6 +33,6 @@ market_configs:
     name: Icarus Market
     url: http://darknet3ysxpbjtvbtyqorzuq3bp4pk3vt4fuhqxz6h2bzj2kyjbisqd.onion/
   versus_market:
-    enabled: true
+    enabled: false
     name: Versus Market
     url: http://q2f7swt5yvbhciqqbbsidufu2vtkv6ivwy6g5i5ukejjlb2jeghd2had.onion/
