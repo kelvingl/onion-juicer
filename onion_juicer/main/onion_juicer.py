@@ -1,7 +1,8 @@
 import os
 import yaml
 import tempfile
-from onion_juicer.model import ConnectionManager, Site as SiteModel
+import csv
+from onion_juicer.model import ConnectionManager, Site as SiteModel, Result as ResultModel
 from onion_juicer.spider import Dark0deMarket
 from scrapy.crawler import CrawlerProcess
 from http.cookiejar import MozillaCookieJar
@@ -35,6 +36,31 @@ class OnionJuicer:
 
         self._crawler_process.join()
         self._crawler_process.start()
+
+    def export_results(self, filepath='%s/dump.csv' % os.getcwd()):
+        self._cm = self._create_connection_manager()
+        results = ResultModel.select(ResultModel, SiteModel.slug).join(SiteModel)
+
+        if len(results) <= 0:
+            return
+
+        with open(filepath, mode='w+') as h:
+            fieldnames = ["slug", "seller", "title", "price", "views", "sales", "description", "url", "body"]
+
+            w = csv.DictWriter(h, fieldnames=fieldnames, dialect='unix')
+            w.writeheader()
+            for result in results:
+                w.writerow({
+                    "slug": result.site.slug,
+                    "seller": result.seller,
+                    "title": result.title,
+                    "price": result.price,
+                    "views": result.views,
+                    "sales": 0, # result.sales,
+                    "description": result,
+                    "url": result.url,
+                    "body": result.body
+                })
 
     def _get_crawler_process_settings(self):
         throttle_config = self._config.get('throttle', {})
