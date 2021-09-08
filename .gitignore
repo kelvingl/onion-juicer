@@ -91,3 +91,7 @@ ENV/
 .vscode
 .idea
 *.db
+*.sqlite
+*.xlsx
+teste.py
+cookies.txt

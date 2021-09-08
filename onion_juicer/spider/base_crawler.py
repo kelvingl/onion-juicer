@@ -8,28 +8,47 @@ class BaseCrawler(CrawlSpider):
 
     configs = {}
     _site = None
+    cookies = None
     ignore_urls = []
     allowed_domains = ['onion']
 
     def initialize_with_configs(self, configs):
         self.configs = configs
 
-        self.start_urls = [self.configs.get('url', None)]
+        self.start_urls = [self._prepare_start_url(self.configs.get('url', None))]
 
         self._site = self.configs.get('site', None)
         if self._site is None:
             raise ValueError('Site must be provided in configuration')
 
-    def _set_user_agent(self, request):
-        user_agent = self.configs.get('user_agent', 'Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0')
-        request.headers['User-Agent'] = user_agent
+    def _import_cookies(self, filename):
+        with open(filename) as h:
+            self.cookies.set_cookie(h.readline())
+
+    def _setup_proxy(self, request):
+        proxy = self.configs.get('proxy', '')
+        if proxy != '':
+            request.meta['proxy'] = proxy
         return request
 
-    def _populate_cookies(self, request):
-        cookies = self.configs.get('cookies', {})
-        for k, v in cookies.items():
-            request.cookies[k] = v
+    def _setup_cookies(self, request):
+        request.meta['cookiejar'] = 0
+
+        if len(request.cookies) == 0:
+            request.cookies = []
+            for i in self.cookies:
+                request.cookies.append({
+                    "name": i.name,
+                    "value": i.value,
+                    "path": i.path,
+                    "domain": i.domain
+                })
         return request
+
+    @staticmethod
+    def _prepare_start_url(url):
+        parse = urlparse(url)
+        return parse.netloc or parse.path
 
     @staticmethod
     def _strip_url(url):
