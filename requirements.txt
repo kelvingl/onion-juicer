@@ -37,7 +37,7 @@ pytz==2021.1
 PyYAML==5.3.1
 queuelib==1.5.0
 regex==2021.3.17
-Scrapy==2.4.1
+Scrapy==2.13.4
 service-identity==18.1.0
 six==1.15.0
 toml==0.10.2
